@@ -10,8 +10,9 @@ import {
   TextInput,
 } from "@strapi/design-system";
 
-export default function EmailModal({ setShowModal, addTodo }) {
-  const [name, setName] = useState("");
+export default function EmailModal({ setShowModal, addEmail }) {
+  const [subject, setSubject] = useState("");
+  const [content, setContent] = useState("");
 
   const handleSubmit = async (e) => {
     // Prevent submitting parent form
@@ -19,7 +20,8 @@ export default function EmailModal({ setShowModal, addTodo }) {
     e.stopPropagation();
 
     try {
-      await addTodo({ name: name });
+      await addEmail({ subject: subject });
+      await addEmail({ content: content });
       setShowModal(false);
     } catch (e) {
       console.log("error", e);
@@ -29,8 +31,8 @@ export default function EmailModal({ setShowModal, addTodo }) {
   const getError = () => {
     // Form validation error
 
-    if (name.length > 40) {
-      return "Content is too long";
+    if (subject.length > 40) {
+      return "Subject is too long";
     }
 
     return null;
@@ -45,19 +47,28 @@ export default function EmailModal({ setShowModal, addTodo }) {
     >
       <ModalHeader>
         <Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
-          Add todo
+          Add email
         </Typography>
       </ModalHeader>
 
       <ModalBody>
         <TextInput
           placeholder="What do you need to do?"
-          label="Name"
+          label="Subject"
           name="text"
           hint="Max 40 characters"
           error={getError()}
-          onChange={(e) => setName(e.target.value)}
-          value={name}
+          onChange={(e) => setSubject(e.target.value)}
+          value={subject}
+        />
+        <TextInput
+          placeholder="What do you need to do?"
+          label="Content"
+          name="text"
+          hint=""
+          error={getError()}
+          onChange={(e) => setContent(e.target.value)}
+          value={subject}
         />
       </ModalBody>
 
@@ -67,7 +78,7 @@ export default function EmailModal({ setShowModal, addTodo }) {
             Cancel
           </Button>
         }
-        endActions={<Button type="submit">Add todo</Button>}
+        endActions={<Button type="submit">Add email</Button>}
       />
     </ModalLayout>
   );

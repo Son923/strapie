@@ -4,12 +4,13 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 // import PropTypes from 'prop-types';
 import pluginId from '../../pluginId';
 import { Box } from '@strapi/design-system/Box';
 import { BaseHeaderLayout } from '@strapi/design-system/Layout';
 import TestLayout from '../../components/TestLayout';
+
 const HomePage = () => {
   return (
     <>
