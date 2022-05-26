@@ -8,9 +8,10 @@ import {
 } from '@strapi/design-system/SubNav';
 import { TextButton } from '@strapi/design-system/TextButton';
 import { Apps, ExclamationMarkCircle, Plus } from '@strapi/icons';
-import React from 'react';
+import React, { memo, useState } from 'react';
 
 const SideNav = () => {
+	const [showModal, setShowModal] = useState(false)
 	const links = [{
 		id: 1,
 		label: 'Schedule',
@@ -28,7 +29,7 @@ const SideNav = () => {
 		active: true
 	  }, {
 		id: 4,
-		label: 'trash',
+		label: 'Trash',
 		to: '/country'
 	  },{
 		id: 5,
