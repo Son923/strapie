@@ -17,6 +17,7 @@ import { Table, Tbody, Td, TFooter, Th, Thead, Tr } from '@strapi/design-system/
 import { Tag } from '@strapi/design-system/Tag';
 import { Typography } from '@strapi/design-system/Typography';
 import { Apps, ExclamationMarkCircle, Pencil, Plus, Trash } from '@strapi/icons';
+import SideNav from '../SideNav';
 import React from 'react';
 
 const TestLayOut = () => {
@@ -61,43 +62,12 @@ const TestLayOut = () => {
   }
 
   return <Box background="neutral100">
-          <Layout sideNav={<SubNav ariaLabel="Builder sub nav">
-                <SubNavHeader searchable value={''} onClear={() => {}} onChange={e => {}} label="Board" searchLabel="Search..." />
-                <SubNavSections>
-                  <SubNavSection label="Email" collapsable badgeLabel={links.length.toString()}>
-                    {links.map(link => <SubNavLink to={link.to} active={link.active} key={link.id}>
-                        {link.label}
-                      </SubNavLink>)}
-                  </SubNavSection>
-                  <SubNavSection label="Template" collapsable badgeLabel={links.length.toString()}>
-                    <SubNavLinkSection label="Default">
-                      {links.map(link => <SubNavLink to={link.to} key={link.id}>
-                          {link.label}
-                        </SubNavLink>)}
-                    </SubNavLinkSection>
-                  </SubNavSection>
-                </SubNavSections>
-              </SubNav>}>
+          <Layout sideNav={<SideNav />}>
             <>
-              <HeaderLayout primaryAction={<Button startIcon={<Plus />}>Add an entry</Button>} secondaryAction={<Button variant="tertiary" startIcon={<Pencil />}>
-                    Edit
-                  </Button>} title="Other CT" subtitle="36 entries found" as="h2" />
-              <ActionLayout startActions={<>
-                    {Array(20).fill(null).map((_, index) => <Box paddingTop={2}>
-                          <Tag key={index} icon={<Plus aria-hidden={true} />}>
-                            Hello world {index}
-                          </Tag>
-                        </Box>)}
-                  </>} endActions={<>
-                    <Button size="M" variant="tertiary">
-                      Settings
-                    </Button>
-                    <Button size="M" variant="tertiary">
-                      Settings
-                    </Button>
-                  </>} />
+              <HeaderLayout primaryAction={<Button startIcon={<Plus />}>Add an entry</Button>} title="Email" subtitle="36 entries found" as="h2" />
+
               <ContentLayout>
-                <Table colCount={COL_COUNT} rowCount={ROW_COUNT} footer={<TFooter icon={<Plus />}>Add another field to this collection type</TFooter>}>
+                <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>
                   <Thead>
                     <Tr>
                       <Th>
@@ -107,10 +77,10 @@ const TestLayOut = () => {
                         <Typography variant="sigma">ID</Typography>
                       </Th>
                       <Th>
-                        <Typography variant="sigma">Cover</Typography>
+                        <Typography variant="sigma">Recipient</Typography>
                       </Th>
                       <Th>
-                        <Typography variant="sigma">Description</Typography>
+                        <Typography variant="sigma">Subject</Typography>
                       </Th>
                       <Th>
                         <Typography variant="sigma">Categories</Typography>
@@ -118,8 +88,6 @@ const TestLayOut = () => {
                       <Th>
                         <Typography variant="sigma">Contact</Typography>
                       </Th>
-                      <Th>More</Th>
-                      <Th>More</Th>
                       <Th>More</Th>
                     </Tr>
                   </Thead>
@@ -143,15 +111,7 @@ const TestLayOut = () => {
                         <Td>
                           <Typography textColor="neutral800">{entry.contact}</Typography>
                         </Td>
-                        <Td>
-                          <Typography textColor="neutral800">{entry.description}</Typography>
-                        </Td>
-                        <Td>
-                          <Typography textColor="neutral800">{entry.description}</Typography>
-                        </Td>
-                        <Td>
-                          <Typography textColor="neutral800">{entry.description}</Typography>
-                        </Td>
+
                         <Td>
                           <Flex>
                             <IconButton onClick={() => console.log('edit')} label="Edit" icon={<Pencil />} />
