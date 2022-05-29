@@ -20,8 +20,7 @@ export default function EmailModal({ setShowModal, addEmail }) {
     e.stopPropagation();
 
     try {
-      await addEmail({ subject: subject });
-      await addEmail({ content: content });
+      await addEmail({ subject: subject, content: content });
       setShowModal(false);
     } catch (e) {
       console.log("error", e);
