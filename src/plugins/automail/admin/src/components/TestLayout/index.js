@@ -46,7 +46,7 @@ const TestLayOut = () => {
                   )
                 }
               </ContentLayout>
-              {showModal && <EmailModal setShowModal={setShowModal} addTodo={addEmail} />}
+              {showModal && <EmailModal setShowModal={setShowModal} addEmail={addEmail} />}
             </>
           </Layout>
         </Box>;
