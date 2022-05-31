@@ -12,6 +12,15 @@ module.exports = [
     },
     {
       method: "GET",
+      path: "/find",
+      handler: "email.find",
+      config: {
+        auth: false,
+        policies: [],
+      },
+    },
+    {
+      method: "GET",
       path: "/hello",
       handler: "email.hello",
       config: {

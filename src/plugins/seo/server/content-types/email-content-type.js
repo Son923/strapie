@@ -7,7 +7,7 @@ module.exports = {
 	info: {
 		singularName: 'email',
 		pluralName: 'emails',
-		displayName: 'Emails',
+		displayName: 'Email',
 	},
 	pluginOptions: {
 		'content-manager': {
