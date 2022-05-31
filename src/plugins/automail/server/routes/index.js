@@ -1,10 +1,5 @@
-module.exports = [
-  {
-    method: 'GET',
-    path: '/',
-    handler: 'myController.index',
-    config: {
-      policies: [],
-    },
-  },
-];
+'use strict';
+
+const mailRoutes = require('./mail-routes');
+
+module.exports = [...mailRoutes];
