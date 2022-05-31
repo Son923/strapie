@@ -25,7 +25,8 @@ module.exports = ({ strapi }) => ({
   },
 
   async find(query) {
-    return await strapi.entityService.findMany("plugin::seo.email", query);
+    const emails = await strapi.entityService.findMany("plugin::seo.email", query);
+    return emails
   },
 
 });
