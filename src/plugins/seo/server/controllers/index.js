@@ -1,7 +1,7 @@
 'use strict';
 
-const seo = require('./seo');
+const email = require('./email');
 
 module.exports = {
-  seo,
+  email,
 };

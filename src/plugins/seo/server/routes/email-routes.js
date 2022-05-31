@@ -4,7 +4,7 @@ module.exports = [
     {
       method: "GET",
       path: "/content-types",
-      handler: "seo.findContentTypes",
+      handler: "email.findContentTypes",
       config: {
         auth: false,
         policies: [],
@@ -13,7 +13,7 @@ module.exports = [
     {
       method: "GET",
       path: "/hello",
-      handler: "seo.hello",
+      handler: "email.hello",
       config: {
         auth: false,
         policies: [],

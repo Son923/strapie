@@ -1,3 +1,7 @@
 'use strict';
 
-module.exports = {};
+const emailContentType = require('./email-content-type');
+
+module.exports = {
+	email: { schema: emailContentType },
+};
