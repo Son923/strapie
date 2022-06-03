@@ -53,10 +53,6 @@ function EmailInput({ value, onChange }) {
 
 export default function EmailTable({
   emailData,
-  toggleEmail,
-  deleteEmail,
-  editEmail,
-  setShowModal,
 }) {
   return (
     <Box
@@ -67,7 +63,7 @@ export default function EmailTable({
         colCount={4}
         rowCount={10}
         footer={
-          <a href="/content-manager/collectionType/plugin::seo.email/create">
+          <a href="/content-manager/collectionType/plugin::automail.mail/create">
             <TFooter icon={<Plus /> }>
               Add and email
             </TFooter>
@@ -145,7 +141,6 @@ export default function EmailTable({
 
                       <Box paddingLeft={1}>
                         <IconButton
-                          onClick={() => deleteEmail(email)}
                           label="Delete"
                           noBorder
                           icon={<Trash />}

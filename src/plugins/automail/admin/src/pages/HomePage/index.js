@@ -4,13 +4,14 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import pluginId from '../../pluginId';
 import { LoadingIndicatorPage } from '@strapi/helper-plugin';
 import mailRequests from '../../api/mail';
+import MailTable from '../../components/MailTable';
 
 const HomePage = () => {
-  const [isLoading, setIsLoading] = useState([]);
+  const [isLoading, setIsLoading] = useState([false]);
   const [mailData, setMailData] = useState([]);
 
   const fetchData = async () => {
@@ -20,14 +21,22 @@ const HomePage = () => {
     setIsLoading(false);
   }
 
-  if (isLoading) return <LoadingIndicatorPage/>;
+  useEffect(async () => {
+    await fetchData();
+    setIsLoading(false);
+  }, []);
 
+  if (isLoading) return <LoadingIndicatorPage/>;
+  
+  console.log(mailData);
   return (
-    <div>
+    <>
       <h1>{pluginId}&apos;s HomePage</h1>
       <p>Happy coding</p>
-      <p>{mailData}</p>
-    </div>
+      <MailTable
+        mailData={mailData}
+      />
+    </>
   );
 };
 
