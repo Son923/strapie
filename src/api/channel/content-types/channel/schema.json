@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "channels",
+  "info": {
+    "singularName": "channel",
+    "pluralName": "channels",
+    "displayName": "Channel",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "channelID": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "channelLink": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "channelName": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "mappedBy": "channels"
+    },
+    "lastUpload": {
+      "type": "date"
+    },
+    "averageViews": {
+      "type": "biginteger"
+    },
+    "avatarUrl": {
+      "type": "string"
+    }
+  }
+}
