@@ -11,6 +11,7 @@ const LeftCol = () => {
     const ROW_COUNT = 8;
     const COL_COUNT = 2;
 	const [value, setValue] = useState('');
+	const [data, setData] = useState('');
 
 	const field = {
 		channelID : 'UCZW5lIUz93q_aZIkJPAC0IQ',
@@ -21,7 +22,13 @@ const LeftCol = () => {
 		videoCount : '938',
 		totalViews : '2831785624',
 		channelLink : 'https://www.youtube.com/channel/UCZW5lIUz93q_aZIkJPAC0IQ'
-	}
+	};
+
+	const handleSearchRequest = async () => {
+		console.log(value);
+		const response = await fetch('https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=g4BvByYK6U4&key=AIzaSyCWqTrhgrGfB-WyUG_wANcdOjnO4Z8-YyM')	;
+		console.log(response.json());
+	};
 
     return <Box padding={4}>
         <SearchForm>
@@ -36,7 +43,8 @@ const LeftCol = () => {
 						Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
 					</Searchbar>
 				</SearchForm>
-				<Button onClick=''>Submit</Button>
+				
+				<Button onClick={handleSearchRequest}>Submit</Button>
         
 				<Box padding={8}>
 					<Table colCount={COL_COUNT} rowCount={ROW_COUNT} >
