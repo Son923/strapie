@@ -24,15 +24,22 @@ const LeftCol = () => {
 		channelLink : 'https://www.youtube.com/channel/UCZW5lIUz93q_aZIkJPAC0IQ'
 	};
 
+	function youtube_parser(url){
+		var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+		var match = url.match(regExp);
+		return (match&&match[7].length==11)? match[7] : false;
+	}
+
 	const handleSearchRequest = async () => {
-		console.log(value);
-		const response = await fetch('https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=g4BvByYK6U4&key=AIzaSyCWqTrhgrGfB-WyUG_wANcdOjnO4Z8-YyM')	;
-		console.log(response.json());
+		const videoId = await youtube_parser(value);
+		const response = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=AIzaSyCWqTrhgrGfB-WyUG_wANcdOjnO4Z8-YyM`);
+		const res = await response.json();
+		setData(res);
 	};
 
     return <Box padding={4}>
         <SearchForm>
-					<Searchbar 
+					<Searchbar
 						name="searchbar" 
 						onClear={() => setValue('')} 
 						value={value} 
@@ -43,7 +50,6 @@ const LeftCol = () => {
 						Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
 					</Searchbar>
 				</SearchForm>
-				
 				<Button onClick={handleSearchRequest}>Submit</Button>
         
 				<Box padding={8}>
@@ -54,7 +60,7 @@ const LeftCol = () => {
 									<Typography variant="sigma">CHANNEL ID</Typography>
 								</Td>
 								<Td>
-									<Typography textColor="neutral800">{ field.channelID}</Typography>
+									<Typography textColor="neutral800">{ data.items }</Typography>
 								</Td>
 							</Tr>
 

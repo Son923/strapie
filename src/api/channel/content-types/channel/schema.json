@@ -43,6 +43,9 @@
     },
     "avatarUrl": {
       "type": "string"
+    },
+    "subcriberCount": {
+      "type": "biginteger"
     }
   }
 }
