@@ -8,21 +8,11 @@ import { Searchbar, SearchForm } from '@strapi/design-system/Searchbar';
 import { Button } from '@strapi/design-system/Button';
 
 const LeftCol = () => {
-  const ROW_COUNT = 8;
-  const COL_COUNT = 2;
+	const ROW_COUNT = 8;
+	const COL_COUNT = 2;
 	const API_KEY = 'AIzaSyCWqTrhgrGfB-WyUG_wANcdOjnO4Z8-YyM';
 	const [value, setValue] = useState('');
-
-	const field = {
-		channelID : 'UCZW5lIUz93q_aZIkJPAC0IQ',
-		channelDescription : '88 is double happiness',
-		subscriberCount : '5830000',
-		videoCount : '938',
-		totalViews : '2831785624',
-		channelLink : 'https://www.youtube.com/channel/UCZW5lIUz93q_aZIkJPAC0IQ'
-	};
-	
-	const [data, setData] = useState(field);
+	const [data, setData] = useState({});
 
 	function youtube_parser(url){
 		var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -32,19 +22,25 @@ const LeftCol = () => {
 
 	const handleSearchRequest = async () => {
 		const videoId = await youtube_parser(value);
-		const response = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`);
-		const res = await response.json();
+		const videoResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`);
+		const res = await videoResponse.json();
+		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${res.items[0].snippet.channelId}&key=${API_KEY}`)
+		const channel = await channelInfo.json()
 		console.log(res.items[0].snippet);
-		const abc = {
+		setData({
 			channelID : res.items[0].snippet.channelId,
 			channelDescription : res.items[0].snippet.description,
-			subscriberCount : '5830000',
-			videoCount : '938',
+			channelTitle: res.items[0].snippet.channelTitle,
+			channelLink : `https://www.youtube.com/channel/${res.items[0].snippet.channelId}`,
+			subscriberCount : channel.items[0].statistics.subscriberCount,
 			totalViews : '2831785624',
-			channelLink : `https://www.youtube.com/channel/${res.items[0].snippet.channelId}`
-		}
-		setData(abc);
-		console.log(abc);
+			thumbnailUrl: channel.items[0].snippet.thumbnails.medium.url,
+			averageViews : '',
+			publishedAt: channel.items[0].snippet.publishedAt,
+			country: channel.items[0].snippet.country,
+
+
+		});
 	};
 
     return <Box padding={4}>
@@ -76,11 +72,20 @@ const LeftCol = () => {
 
 							<Tr>
 								<Td>
+									<Typography variant="sigma">CHANNEL TITLE</Typography>
+								</Td>
+								<Td>
+									<Typography textColor="neutral800">{ data.channelTitle }</Typography>
+								</Td>
+							</Tr>
+
+							<Tr>
+								<Td>
 									<Typography variant="sigma">LINK</Typography>
 								</Td>
 								<Td>
 									<BaseLink href={ data.channelLink } isExternal>
-										<Typography textColor="neutral800">{ data.channelLink	}</Typography>
+										<Typography textColor="neutral800">{ data.channelLink }</Typography>
 									</BaseLink>
 								</Td>	
 							</Tr>
@@ -90,7 +95,16 @@ const LeftCol = () => {
 									<Typography variant="sigma">DESCRIPTION</Typography>
 								</Td>
 								<Td>
-									<Typography textColor="neutral800">{data.channelDescription	}</Typography>
+									<Typography textColor="neutral800">{ data.channelDescription}</Typography>
+								</Td>
+							</Tr>
+
+							<Tr>
+								<Td>
+									<Typography variant="sigma">PUBLISHED AT</Typography>
+								</Td>
+								<Td>
+									<Typography textColor="neutral800">{ data.publishedAt }</Typography>
 								</Td>
 							</Tr>
 
@@ -99,7 +113,7 @@ const LeftCol = () => {
 									<Typography variant="sigma">SUBSCRIBERS</Typography>
 								</Td>
 								<Td>
-									<Typography textColor="neutral800">{ field.subscriberCount }</Typography>
+									<Typography textColor="neutral800">{ data.subscriberCount }</Typography>
 								</Td>
 							</Tr>
 
@@ -108,7 +122,27 @@ const LeftCol = () => {
 									<Typography variant="sigma">TOTAL VIEWS</Typography>
 								</Td>
 								<Td>
-									<Typography textColor="neutral800">{ field.totalViews }</Typography>
+									<Typography textColor="neutral800">{ data.totalViews }</Typography>
+								</Td>
+							</Tr>
+
+							<Tr>
+								<Td>
+									<Typography variant="sigma">COUNTRY</Typography>
+								</Td>
+								<Td>
+									<Typography textColor="neutral800">{ data.country }</Typography>
+								</Td>
+							</Tr>
+
+							<Tr>
+								<Td>
+									<Typography variant="sigma">THUMBNAIL URL</Typography>
+								</Td>
+								<Td>
+									<BaseLink href={ data.thumbnailUrl } isExternal>
+										<Typography textColor="neutral800">{ data.thumbnailUrl }</Typography>
+									</BaseLink>
 								</Td>
 							</Tr>
 
