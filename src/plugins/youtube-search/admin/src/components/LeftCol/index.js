@@ -33,7 +33,7 @@ const LeftCol = () => {
 			channelTitle: res.items[0].snippet.channelTitle,
 			channelLink : `https://www.youtube.com/channel/${res.items[0].snippet.channelId}`,
 			subscriberCount : channel.items[0].statistics.subscriberCount,
-			totalViews : '2831785624',
+			totalViews : channel.items[0].statistics.viewCount,
 			thumbnailUrl: channel.items[0].snippet.thumbnails.medium.url,
 			averageViews : '',
 			publishedAt: channel.items[0].snippet.publishedAt,
@@ -48,7 +48,7 @@ const LeftCol = () => {
 					<Searchbar
 						name="searchbar" 
 						onClear={() => setValue('')} 
-						value={value} 
+						value={value}
 						onChange={e => setValue(e.target.value)} 
 						clearLabel="Clearing the plugin search" 
 						placeholder="e.g: YouTube Channel URL, Video URL or username"
