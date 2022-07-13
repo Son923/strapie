@@ -24,20 +24,19 @@ const LeftCol = () => {
 		const videoId = await youtube_parser(value);
 		const videoResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`);
 		const videos = await videoResponse.json();
-		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${res.items[0].snippet.channelId}&key=${API_KEY}`)
+		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${videos.items[0].snippet.channelId}&key=${API_KEY}`)
 		const channels = await channelInfo.json()
 		setData({
 			channelID : videos.items[0].snippet.channelId,
 			channelDescription : videos.items[0].snippet.description,
 			channelTitle: videos.items[0].snippet.channelTitle,
-			channelLink : `https://www.youtube.com/channel/${res.items[0].snippet.channelId}`,
+			channelLink : `https://www.youtube.com/channel/${videos.items[0].snippet.channelId}`,
 			subscriberCount : channels.items[0].statistics.subscriberCount,
 			totalViews : channels.items[0].statistics.viewCount,
 			thumbnailUrl: channels.items[0].snippet.thumbnails.medium.url,
 			averageViews : '',
 			publishedAt: channels.items[0].snippet.publishedAt,
 			country: channels.items[0].snippet.country,
-
 
 		});
 	};
