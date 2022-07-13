@@ -3,6 +3,7 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
+import { ActionLayout } from './components/ActionLayout';
 
 const name = pluginPkg.strapi.name;
 
@@ -36,7 +37,14 @@ export default {
     });
   },
 
-  bootstrap(app) {},
+  bootstrap(app) {
+		app.injectContentManagerComponent('editView', 'informations', {
+			name: name,
+			Component: ActionLayout,
+		});
+	},
+
+
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map(locale => {

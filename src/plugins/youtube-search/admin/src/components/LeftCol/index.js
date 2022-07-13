@@ -23,21 +23,20 @@ const LeftCol = () => {
 	const handleSearchRequest = async () => {
 		const videoId = await youtube_parser(value);
 		const videoResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`);
-		const res = await videoResponse.json();
+		const videos = await videoResponse.json();
 		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${res.items[0].snippet.channelId}&key=${API_KEY}`)
-		const channel = await channelInfo.json()
-		console.log(res.items[0].snippet);
+		const channels = await channelInfo.json()
 		setData({
-			channelID : res.items[0].snippet.channelId,
-			channelDescription : res.items[0].snippet.description,
-			channelTitle: res.items[0].snippet.channelTitle,
+			channelID : videos.items[0].snippet.channelId,
+			channelDescription : videos.items[0].snippet.description,
+			channelTitle: videos.items[0].snippet.channelTitle,
 			channelLink : `https://www.youtube.com/channel/${res.items[0].snippet.channelId}`,
-			subscriberCount : channel.items[0].statistics.subscriberCount,
-			totalViews : channel.items[0].statistics.viewCount,
-			thumbnailUrl: channel.items[0].snippet.thumbnails.medium.url,
+			subscriberCount : channels.items[0].statistics.subscriberCount,
+			totalViews : channels.items[0].statistics.viewCount,
+			thumbnailUrl: channels.items[0].snippet.thumbnails.medium.url,
 			averageViews : '',
-			publishedAt: channel.items[0].snippet.publishedAt,
-			country: channel.items[0].snippet.country,
+			publishedAt: channels.items[0].snippet.publishedAt,
+			country: channels.items[0].snippet.country,
 
 
 		});
