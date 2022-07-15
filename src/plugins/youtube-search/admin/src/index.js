@@ -3,7 +3,7 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
-import { ActionLayout } from './components/ActionLayout';
+import { SearchBox } from './components/SearchBox';
 
 const name = pluginPkg.strapi.name;
 
@@ -40,7 +40,7 @@ export default {
   bootstrap(app) {
 		app.injectContentManagerComponent('editView', 'informations', {
 			name: name,
-			Component: ActionLayout,
+			Component: SearchBox,
 		});
 	},
 
