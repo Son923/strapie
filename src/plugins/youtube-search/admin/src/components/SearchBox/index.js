@@ -6,6 +6,7 @@ import { Box } from '@strapi/design-system/Box';
 import { Typography } from '@strapi/design-system/Typography';
 import { Header } from './Header';
 import { Searchbar, SearchForm } from '@strapi/design-system/Searchbar';
+import { BaseLink } from '@strapi/design-system/BaseLink';
 
 const actionModes = ['publish', 'unpublish'];
 
@@ -21,7 +22,7 @@ const SearchBox = () => {
 	// }
 	
 	const [value, setValue] = useState('');
-	const [ submittedValue, setSubmittedValue ] = useState( '' );
+	const [data, setData] = useState({});
 	const inputEl = useRef(null);
 
 	function youtube_parser(url){
@@ -36,9 +37,9 @@ const SearchBox = () => {
 		const videos = await videoResponse.json();
 		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${videos.items[0].snippet.channelId}&key=${API_KEY}`)
 		const channels = await channelInfo.json()
-		const mockData = {
+		setData({
 			channelID : videos.items[0].snippet.channelId,
-			channelDescription : videos.items[0].snippet.description,
+			channelDescription : channels.items[0].snippet.description,
 			channelTitle: videos.items[0].snippet.channelTitle,
 			channelLink : `https://www.youtube.com/channel/${videos.items[0].snippet.channelId}`,
 			subscriberCount : channels.items[0].statistics.subscriberCount,
@@ -47,7 +48,7 @@ const SearchBox = () => {
 			averageViews : '',
 			publishedAt: channels.items[0].snippet.publishedAt,
 			country: channels.items[0].snippet.country,
-		};
+		});
 
 		// TODO: clmeee refactor gap
 		onChange({
@@ -70,6 +71,31 @@ const SearchBox = () => {
 		});
 		onChange({
 			target: { name: "channelID", value: videos.items[0].snippet.channelId },
+		});
+	}
+
+	const handelOnClear = () => {
+		setValue('');
+		onChange({
+			target: { name: "channelLink", value: null },
+		});
+		onChange({
+			target: { name: "country", value: null },
+		});
+		onChange({
+			target: { name: "subcriberCount", value: null },
+		});
+		onChange({
+			target: { name: "avatarUrl", value: null },
+		});
+		onChange({
+			target: { name: "channelName", value: null },
+		});
+		onChange({
+			target: { name: "averageViews", value: null },
+		});
+		onChange({
+			target: { name: "channelID", value: null },
 		});
 	}
 
@@ -96,7 +122,7 @@ const SearchBox = () => {
 					<Header />
 					<Searchbar
 						name="searchbar"
-						onClear={() => setValue('')} 
+						onClear={handelOnClear} 
 						value={value}
 						onChange={e => setValue(e.target.value)} 
 						clearLabel="Clearing the plugin search" 
@@ -105,7 +131,16 @@ const SearchBox = () => {
 						ref={inputEl}
 					>
 						Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
-					</Searchbar>			
+					</Searchbar>
+					<Box marginTop={4}>
+						<BaseLink href={ data.channelLink } isExternal>
+							<Typography variant='delta' textColor="primary800">{ data.channelTitle }</Typography>
+						</BaseLink>
+						<Box>
+							<Typography>{ data.channelDescription }</Typography>
+						</Box>
+
+					</Box>
 				</Box>
 			) : (
 				<p ref={inputEl}></p>
