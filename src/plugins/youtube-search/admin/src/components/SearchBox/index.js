@@ -135,12 +135,10 @@ const SearchBox = () => {
 						placeholder="YouTube Video URL"
 						size="S"
 						ref={inputEl}
-					>
-						Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
-					</Searchbar>
+					/>
 					<Box marginTop={4}>
 						<BaseLink href={ data.channelLink } isExternal>
-							<Typography variant='delta' textColor="primary800">{ data.channelTitle }</Typography>
+							<Typography variant='delta' textColor="primary200">{ data.channelTitle }</Typography>
 						</BaseLink>
 						<Box>
 							<Typography>{ data.channelDescription }</Typography>
