@@ -47,37 +47,37 @@ const SearchBox = () => {
 	};
 
 	useEffect(() => {
-		const value = inputEl.current.value;
 		const handleEvent = ( event ) => {
-			// call API voi url
+			const url = inputEl.current.value;
 			if ( event.key === 'Enter' ) {
-				// event.preventDefault();
-                setSubmittedValue( value );
-				// handleSearchRequest;
-				console.log(submittedValue)
+				console.log(url);
+				// call API voi url
+
 			}
 		};
 		inputEl.current.addEventListener( 'keydown', handleEvent );
-	})
+
+		return () => {
+			inputEl.current.removeEventListener('keydown', handleEvent);
+		}
+	}, [])
 
 	return (	
 
 		<Box marginTop={4}>
 			<Header />
-			<SearchForm>
-				<Searchbar
-					name="searchbar" 
-					onClear={() => setValue('')} 
-					value={value}
-					onChange={e => setValue(e.target.value)} 
-					clearLabel="Clearing the plugin search" 
-					placeholder="YouTube Video URL"
-					size="S"
-					ref={inputEl}
-				>
-					Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
-				</Searchbar>
-			</SearchForm>
+			<Searchbar
+				name="searchbar" 
+				onClear={() => setValue('')} 
+				value={value}
+				onChange={e => setValue(e.target.value)} 
+				clearLabel="Clearing the plugin search" 
+				placeholder="YouTube Video URL"
+				size="S"
+				ref={inputEl}
+			>
+				Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
+			</Searchbar>
 			
     	</Box>
 	);
