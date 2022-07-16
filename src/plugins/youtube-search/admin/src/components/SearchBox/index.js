@@ -22,7 +22,6 @@ const SearchBox = () => {
 	
 	const [value, setValue] = useState('');
 	const [ submittedValue, setSubmittedValue ] = useState( '' );
-	const [data, setData] = useState({});
 	const inputEl = useRef(null);
 
 	function youtube_parser(url){
@@ -37,7 +36,7 @@ const SearchBox = () => {
 		const videos = await videoResponse.json();
 		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${videos.items[0].snippet.channelId}&key=${API_KEY}`)
 		const channels = await channelInfo.json()
-		setData({
+		const mockData = {
 			channelID : videos.items[0].snippet.channelId,
 			channelDescription : videos.items[0].snippet.description,
 			channelTitle: videos.items[0].snippet.channelTitle,
@@ -48,7 +47,7 @@ const SearchBox = () => {
 			averageViews : '',
 			publishedAt: channels.items[0].snippet.publishedAt,
 			country: channels.items[0].snippet.country,
-		});
+		};
 
 		// TODO: clmeee refactor gap
 		onChange({
@@ -91,21 +90,27 @@ const SearchBox = () => {
 	}, [])
 
 	return (
-		<Box marginTop={4}>
-			<Header />
-			<Searchbar
-				name="searchbar" 
-				onClear={() => setValue('')} 
-				value={value}
-				onChange={e => setValue(e.target.value)} 
-				clearLabel="Clearing the plugin search" 
-				placeholder="YouTube Video URL"
-				size="S"
-				ref={inputEl}
-			>
-				Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
-			</Searchbar>			
-    	</Box>
+		<>
+			{slug === 'api::channel.channel' ? (
+				<Box marginTop={4}>
+					<Header />
+					<Searchbar
+						name="searchbar"
+						onClear={() => setValue('')} 
+						value={value}
+						onChange={e => setValue(e.target.value)} 
+						clearLabel="Clearing the plugin search" 
+						placeholder="YouTube Video URL"
+						size="S"
+						ref={inputEl}
+					>
+						Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
+					</Searchbar>			
+				</Box>
+			) : (
+				<p ref={inputEl}></p>
+			)}
+		</>
 	);
 };
 
