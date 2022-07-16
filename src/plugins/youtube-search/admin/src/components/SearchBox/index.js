@@ -72,6 +72,9 @@ const SearchBox = () => {
 		onChange({
 			target: { name: "channelID", value: videos.items[0].snippet.channelId },
 		});
+		onChange({
+			target: { name: "lastUpload", value: channels.items[0].snippet.publishedAt },
+		});
 	}
 
 	const handelOnClear = () => {
@@ -96,6 +99,9 @@ const SearchBox = () => {
 		});
 		onChange({
 			target: { name: "channelID", value: null },
+		});
+		onChange({
+			target: { name: "lastUpload", value: null },
 		});
 	}
 
