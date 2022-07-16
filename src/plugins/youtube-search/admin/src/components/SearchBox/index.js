@@ -10,7 +10,7 @@ import { Searchbar, SearchForm } from '@strapi/design-system/Searchbar';
 const actionModes = ['publish', 'unpublish'];
 
 const SearchBox = () => {
-	const { slug, hasDraftAndPublish, isCreatingEntry } = useCMEditViewDataManager();
+	const { slug, hasDraftAndPublish, isCreatingEntry, onChange } = useCMEditViewDataManager();
 	const params = useParams();
 	const id = _get(params, 'id', null);
 	const currentEntityId = Number(id);
@@ -48,7 +48,29 @@ const SearchBox = () => {
 			averageViews : '',
 			publishedAt: channels.items[0].snippet.publishedAt,
 			country: channels.items[0].snippet.country,
+		});
 
+		// TODO: clmeee refactor gap
+		onChange({
+			target: { name: "channelLink", value: `https://www.youtube.com/channel/${videos.items[0].snippet.channelId}` },
+		});
+		onChange({
+			target: { name: "country", value: channels.items[0].snippet.country },
+		});
+		onChange({
+			target: { name: "subcriberCount", value: channels.items[0].statistics.subscriberCount },
+		});
+		onChange({
+			target: { name: "avatarUrl", value: channels.items[0].snippet.thumbnails.medium.url },
+		});
+		onChange({
+			target: { name: "channelName", value: videos.items[0].snippet.channelTitle },
+		});
+		onChange({
+			target: { name: "averageViews", value: channels.items[0].statistics.viewCount },
+		});
+		onChange({
+			target: { name: "channelID", value: videos.items[0].snippet.channelId },
 		});
 	}
 
@@ -68,8 +90,7 @@ const SearchBox = () => {
 		}
 	}, [])
 
-	return (	
-
+	return (
 		<Box marginTop={4}>
 			<Header />
 			<Searchbar
@@ -83,8 +104,7 @@ const SearchBox = () => {
 				ref={inputEl}
 			>
 				Find a Channel ID and related channel information, like Channel owner, Channel start date, Subscriber Count, total views and total videos of any YouTube user.
-			</Searchbar>
-			
+			</Searchbar>			
     	</Box>
 	);
 };
