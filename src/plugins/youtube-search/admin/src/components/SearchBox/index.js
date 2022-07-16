@@ -20,13 +20,44 @@ const SearchBox = () => {
 	// }
 	
 	const [value, setValue] = useState('');
+	const [ submittedValue, setSubmittedValue ] = useState( '' );
+	const [data, setData] = useState({});
 	const inputEl = useRef(null);
+
+	const handleSearchRequest = async () => {
+		const videoId = await youtube_parser(submittedValue);
+		const videoResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`);
+		const videos = await videoResponse.json();
+		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${videos.items[0].snippet.channelId}&key=${API_KEY}`)
+		const channels = await channelInfo.json()
+		setData({
+			channelID : videos.items[0].snippet.channelId,
+			channelDescription : videos.items[0].snippet.description,
+			channelTitle: videos.items[0].snippet.channelTitle,
+			channelLink : `https://www.youtube.com/channel/${videos.items[0].snippet.channelId}`,
+			subscriberCount : channels.items[0].statistics.subscriberCount,
+			totalViews : channels.items[0].statistics.viewCount,
+			thumbnailUrl: channels.items[0].snippet.thumbnails.medium.url,
+			averageViews : '',
+			publishedAt: channels.items[0].snippet.publishedAt,
+			country: channels.items[0].snippet.country,
+
+		});
+		console.log(data)
+	};
+
 	useEffect(() => {
-		const handle = () => {
-			const url = inputEl.current.value;
+		const value = inputEl.current.value;
+		const handleEvent = ( event ) => {
 			// call API voi url
+			if ( event.key === 'Enter' ) {
+				// event.preventDefault();
+                setSubmittedValue( value );
+				// handleSearchRequest;
+				console.log(submittedValue)
+			}
 		};
-		inputEl.current.addEventListener('onEnter', handle);
+		inputEl.current.addEventListener( 'keydown', handleEvent );
 	})
 
 	return (	
