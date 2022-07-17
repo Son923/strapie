@@ -31,12 +31,29 @@ const SearchBox = () => {
 		return (match&&match[7].length==11)? match[7] : false;
 	}
 
+	const getAverageView = async (latestVideoIDs) => {
+		const latestVideosResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${latestVideoIDs.join()}&key=${API_KEY}`);
+		const latestVideos = await latestVideosResponse.json();
+		const viewCountArray = latestVideos.items.map(item => parseInt(item.statistics.viewCount));
+		const averageview = Math.round( viewCountArray.reduce((partialSum, a) => partialSum + a, 0)/viewCountArray.length );
+		return averageview;
+	} 		
+
 	const handleSearchRequest = async (url) => {
 		const videoId = await youtube_parser(url);
 		const videoResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`);
 		const videos = await videoResponse.json();
+
 		const channelInfo = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails,status&id=${videos.items[0].snippet.channelId}&key=${API_KEY}`)
-		const channels = await channelInfo.json()
+		const channels = await channelInfo.json();
+
+		const uploadPlaylistID = channels.items[0].contentDetails.relatedPlaylists.uploads;
+		const uploadPlaylistItemsResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=5&playlistId=${uploadPlaylistID}&key=${API_KEY}`);
+		const uploadPlaylistItems = await uploadPlaylistItemsResponse.json();
+		const latestVideoIDs = uploadPlaylistItems.items.map(item => item.contentDetails.videoId);
+		const averageViews = await getAverageView(latestVideoIDs);
+		const lastUpload = uploadPlaylistItems.items[0].contentDetails.videoPublishedAt;
+
 		setData({
 			channelID : videos.items[0].snippet.channelId,
 			channelDescription : channels.items[0].snippet.description,
@@ -45,9 +62,11 @@ const SearchBox = () => {
 			subscriberCount : channels.items[0].statistics.subscriberCount,
 			totalViews : channels.items[0].statistics.viewCount,
 			thumbnailUrl: channels.items[0].snippet.thumbnails.medium.url,
-			averageViews : '',
+			averageViews : averageViews,
 			publishedAt: channels.items[0].snippet.publishedAt,
 			country: channels.items[0].snippet.country,
+			lastUpload: lastUpload,
+			test: lastUpload,
 		});
 
 		// TODO: clmeee refactor gap
@@ -67,13 +86,13 @@ const SearchBox = () => {
 			target: { name: "channelName", value: videos.items[0].snippet.channelTitle },
 		});
 		onChange({
-			target: { name: "averageViews", value: channels.items[0].statistics.viewCount },
+			target: { name: "averageViews", value: averageViews },
 		});
 		onChange({
 			target: { name: "channelID", value: videos.items[0].snippet.channelId },
 		});
 		onChange({
-			target: { name: "lastUpload", value: channels.items[0].snippet.publishedAt },
+			target: { name: "lastUpload", value: lastUpload },
 		});
 	}
 
@@ -109,7 +128,6 @@ const SearchBox = () => {
 		const handleEvent = ( event ) => {
 			const url = inputEl.current.value;
 			if ( event.key === 'Enter' ) {
-				console.log(url);
 				handleSearchRequest(url);
 			}
 
@@ -135,16 +153,14 @@ const SearchBox = () => {
 						placeholder="YouTube Video URL"
 						size="S"
 						ref={inputEl}
+						children=""
 					/>
 					<Box marginTop={4}>
 						<BaseLink href={ data.channelLink } isExternal>
 							<Typography variant='delta' textColor="primary200">{ data.channelTitle }</Typography>
 						</BaseLink>
-						<Box>
-							<Typography>{ data.channelDescription }</Typography>
-						</Box>
-
 					</Box>
+					<p>{data.test}</p>
 				</Box>
 			) : (
 				<p ref={inputEl}></p>
