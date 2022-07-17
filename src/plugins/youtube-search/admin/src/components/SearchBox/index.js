@@ -160,7 +160,6 @@ const SearchBox = () => {
 							<Typography variant='delta' textColor="primary200">{ data.channelTitle }</Typography>
 						</BaseLink>
 					</Box>
-					<p>{data.test}</p>
 				</Box>
 			) : (
 				<p ref={inputEl}></p>
