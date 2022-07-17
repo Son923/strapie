@@ -77,7 +77,7 @@ const SearchBox = () => {
 			target: { name: "country", value: channels.items[0].snippet.country },
 		});
 		onChange({
-			target: { name: "subcriberCount", value: channels.items[0].statistics.subscriberCount },
+			target: { name: "subscriberCount", value: channels.items[0].statistics.subscriberCount },
 		});
 		onChange({
 			target: { name: "avatarUrl", value: channels.items[0].snippet.thumbnails.medium.url },
@@ -105,7 +105,7 @@ const SearchBox = () => {
 			target: { name: "country", value: null },
 		});
 		onChange({
-			target: { name: "subcriberCount", value: null },
+			target: { name: "subscriberCount", value: null },
 		});
 		onChange({
 			target: { name: "avatarUrl", value: null },
