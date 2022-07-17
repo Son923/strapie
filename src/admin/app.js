@@ -57,6 +57,7 @@ export default {
         },
       },
       tutorials: false,
+      notifications: { release: false },
       theme: {
         colors: {
           // primary100: '#00B482',
