@@ -20,11 +20,6 @@
       "relation": "manyToMany",
       "target": "api::channel.channel",
       "inversedBy": "categories"
-    },
-    "categoryId": {
-      "type": "integer",
-      "unique": true,
-      "required": true
     }
   }
 }

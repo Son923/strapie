@@ -3,6 +3,7 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
+import { Update } from './components/Injected/update';
 
 const name = pluginPkg.strapi.name;
 
@@ -36,12 +37,17 @@ export default {
     });
   },
 
-  bootstrap(app) {},
+  bootstrap(app) {
+    app.injectContentManagerComponent('listView', 'actions', {
+      name: `${pluginId}-update`,
+      Component: Update,
+    });
+  },
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map(locale => {
         return import(`./translations/${locale}.json`)
-          .then(({ default: data }) => {
+          .then(({ default: data }) => {  
             return {
               data: prefixPluginTranslations(data, pluginId),
               locale,
