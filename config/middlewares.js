@@ -8,7 +8,7 @@ module.exports = [
         useDefaults: true,
         directives: {
           "connect-src": ["'self'", "https:"],
-          "img-src": ["'self'", "data:", "blob:", "https://"],
+          "img-src": ["'self'", "https: data:", "blob:"],
           upgradeInsecureRequests: null,
         },
       },
