@@ -7,7 +7,8 @@ module.exports = [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          "img-src": ["'self'", "data:", "blob:", "https://dl.airtable.com"],
+          "connect-src": ["'self'", "https:"],
+          "img-src": ["'self'", "data:", "blob:", "https://"],
           upgradeInsecureRequests: null,
         },
       },
