@@ -6,7 +6,6 @@ import PluginIcon from './components/PluginIcon';
 import { Avatar } from '@strapi/design-system/Avatar';
 import React from 'react';
 import { SearchBox } from './components/SearchBox';
-import get from "lodash/get";
 
 const name = pluginPkg.strapi.name;
 
@@ -29,12 +28,15 @@ export default {
 
     // Inject column Avatar
     app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
-      if (layout.contentType.apiID !== "channel") {
+      if (layout.contentType.uid !== "api::channel.channel") {
         return {
           displayedHeaders,
           layout,
         };
       }
+
+      console.log(Object.keys(layout.contentType))
+      console.log(layout)
 
       return {
         layout,
@@ -62,7 +64,7 @@ export default {
     
     // Inject column Created At 
     app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
-      if (layout.contentType.apiID !== "channel") {
+      if (layout.contentType.uid !== "api::channel.channel") {
         return {
           displayedHeaders,
           layout,
