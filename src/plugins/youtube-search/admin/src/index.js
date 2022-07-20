@@ -35,9 +35,6 @@ export default {
         };
       }
 
-      console.log(Object.keys(layout.contentType))
-      console.log(layout)
-
       return {
         layout,
         displayedHeaders: [
