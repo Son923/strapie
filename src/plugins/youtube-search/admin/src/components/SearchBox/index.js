@@ -25,6 +25,10 @@ const SearchBox = () => {
 	const [data, setData] = useState({});
 	const inputEl = useRef(null);
 
+	const regionNames = new Intl.DisplayNames(
+		['en'], {type: 'region'}
+	);
+
 	function youtube_parser(url){
 		var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
 		var match = url.match(regExp);
@@ -53,6 +57,7 @@ const SearchBox = () => {
 		const latestVideoIDs = uploadPlaylistItems.items.map(item => item.contentDetails.videoId);
 		const averageViews = await getAverageView(latestVideoIDs);
 		const lastUpload = uploadPlaylistItems.items[0].contentDetails.videoPublishedAt;
+		const country = regionNames.of(channels.items[0].snippet.country)
 
 		setData({
 			channelID : videos.items[0].snippet.channelId,
@@ -74,7 +79,7 @@ const SearchBox = () => {
 			target: { name: "channelLink", value: `https://www.youtube.com/channel/${videos.items[0].snippet.channelId}` },
 		});
 		onChange({
-			target: { name: "country", value: channels.items[0].snippet.country },
+			target: { name: "country", value: country },
 		});
 		onChange({
 			target: { name: "subscriberCount", value: channels.items[0].statistics.subscriberCount },

@@ -1,10 +1,11 @@
-import { prefixPluginTranslations } from '@strapi/helper-plugin';
+import { prefixPluginTranslations, useCMEditViewDataManager } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
 import { Avatar } from '@strapi/design-system/Avatar';
 import React from 'react';
+import { SearchBox } from './components/SearchBox';
 
 const name = pluginPkg.strapi.name;
 
@@ -19,6 +20,12 @@ export default {
   },
 
   bootstrap(app) {
+    // Inject SearchBox in EditView
+    app.injectContentManagerComponent('editView', 'informations', {
+			name: name,
+			Component: SearchBox,
+		});
+
     // Inject column Avatar
     app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
       return {
@@ -65,7 +72,7 @@ export default {
               return (
                 <div>
                   {data["createdBy"]["firstname"]}{" "}
-                  {data["createdBy"]["lastname"]}
+                  {data["createdBy"]["lastname"]}{" "}
                 </div>
               );
             },
