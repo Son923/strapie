@@ -38,6 +38,9 @@
     },
     "repTitle": {
       "type": "string"
+    },
+    "demoVideo": {
+      "type": "string"
     }
   }
 }
