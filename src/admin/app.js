@@ -46,7 +46,7 @@ export default {
       translations: {
         en: {
             "Auth.form.button.login.strapi": "Log in via Jetski",
-            "Auth.form.welcome.title": "Welcome to Jetski!",
+            "Auth.form.welcome.title": "Welcome to Jetski",
             "Auth.form.welcome.subtitle": "Log in to your Jetski account",
             "Auth.form.register.subtitle": "Credentials are only used to authenticate in Jetski. All saved data will be stored in your database.",
             "HomePage.welcome.congrats.content": "You are logged in as the first administrator. To discover the powerful features provided by Jetski,",
@@ -65,8 +65,9 @@ export default {
             "app.components.UpgradePlanModal.text-power": "Unlock the full power of Jetski by upgrading your plan to the Enterprise Edition",
             "app.components.UpgradePlanModal.text-strapi": "of Jetski by upgrading your plan to the",
             "components.AutoReloadBlocker.description": "Run Jetski with one of the following commands:",
-            "notification.version.update.message": "A new version of Jetski is available!",
+            "notification.version.update.message": "A new version of Jetski is available",
         },
+        
       },
       tutorials: false,
       notifications: { release: false },
