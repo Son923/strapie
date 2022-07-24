@@ -59,7 +59,7 @@ const SearchBox = () => {
 		const lastUpload = uploadPlaylistItems.items[0].contentDetails.videoPublishedAt;
 		const countryCode = channels.items[0].snippet.country;
 		
-		const countryName = "";
+		let countryName = "";
 		if (countryCode) {
 			countryName = regionNames.of(countryCode)	
 		}
