@@ -9,8 +9,17 @@ import React from 'react';
 
 const name = pluginPkg.strapi.name;
 
+const Settings = async () => {
+  const component = await import(
+    /* webpackChunkName: "users-providers-settings-page" */ './pages/Settings'
+  );
+
+  return component;
+};
+
 export default {
   register(app) {
+    
     app.addMenuLink({
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
@@ -20,26 +29,42 @@ export default {
       },
       Component: async () => {
         const component = await import(/* webpackChunkName: "[request]" */ './pages/App');
-
+        
         return component;
       },
       permissions: [
         // Uncomment to set the permissions of the plugin here
         // {
-        //   action: '', // the action name should be plugin::plugin-name.actionType
-        //   subject: null,
-        // },
-      ],
-    });
-    app.registerPlugin({
-      id: pluginId,
-      initializer: Initializer,
-      isReady: false,
-      name,
-    });
-  },
+          //   action: '', // the action name should be plugin::plugin-name.actionType
+          //   subject: null,
+          // },
+        ],
+      });
+      
+      app.createSettingSection(
+        { id: pluginId, intlLabel: { id: `${pluginId}.plugin.name`, defaultMessage: "Update Channel" } }, // Section to create
+        [
+          // links
+          {
+            intlLabel: { id: `${pluginId}.plugin.name`, defaultMessage: "Channels" },
+            id: 'updatechannel-Configuration',
+          to: `/settings/${pluginId}`,
+          Component: Settings,
+          // permissions: Object[''],
+          },
+        ]
+      );
 
-  bootstrap(app) {
+      app.registerPlugin({
+        id: pluginId,
+        initializer: Initializer,
+        isReady: false,
+        name,
+      });
+      
+    },
+    
+    bootstrap(app) {
     app.injectContentManagerComponent('listView', 'actions', {
       name: `${pluginId}-update`,
       Component: Update,
