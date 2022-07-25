@@ -15,7 +15,9 @@ const SearchBox = () => {
 	const params = useParams();
 	const id = _get(params, 'id', null);
 	const currentEntityId = Number(id);
-	const API_KEY = 'AIzaSyCWqTrhgrGfB-WyUG_wANcdOjnO4Z8-YyM';
+	// const API_KEY = 'AIzaSyCWqTrhgrGfB-WyUG_wANcdOjnO4Z8-YyM';
+	// const API_KEY = "AIzaSyAT0Un5cp1MTFoHX8IZiWVIQSso8tN3onU"
+	const API_KEY = "AIzaSyCgB9JG2iUr3thfX5OrZmB3BCNrHE-DTqk"
 
 	// if (!hasDraftAndPublish || isCreatingEntry) {
 	// 	return null;
