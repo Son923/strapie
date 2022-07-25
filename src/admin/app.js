@@ -1,4 +1,4 @@
-import GreenLogo from './extensions/green-logo.png';
+import Logo from './extensions/An-black-scale.png';
 import favicon from './extensions/favicon.ico';
 
 export default {
@@ -32,7 +32,7 @@ export default {
         // 'zh',
       ],
       auth: {
-        logo: GreenLogo
+        logo: Logo
       },
 
       head: {
@@ -40,7 +40,7 @@ export default {
       },
 
       menu: {
-        logo: GreenLogo
+        logo: Logo
       },
 
       translations: {
