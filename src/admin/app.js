@@ -46,7 +46,7 @@ export default {
       translations: {
         en: {
             "Auth.form.button.login.strapi": "Log in via Tongle",
-            "Auth.form.welcome.title": "Welcome to Tongle Dashboard",
+            "Auth.form.welcome.title": "Welcome to Tongle",
             "Auth.form.welcome.subtitle": "Log in to your Tongle account",
             "Auth.form.register.subtitle": "Credentials are only used to authenticate in Vui. All saved data will be stored in your database.",
             "HomePage.welcome.congrats.content": "You are logged in as the first administrator. To discover the powerful features provided by Chong An Bui,",
