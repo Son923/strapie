@@ -46,6 +46,12 @@
     },
     "subscriberCount": {
       "type": "biginteger"
+    },
+    "brands": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::brand.brand",
+      "mappedBy": "channels"
     }
   }
 }

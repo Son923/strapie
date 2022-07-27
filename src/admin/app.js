@@ -1,4 +1,4 @@
-import GreenLogo from './extensions/green-logo.png';
+import Logo from './extensions/unicorn.png';
 import favicon from './extensions/favicon.ico';
 
 export default {
@@ -27,12 +27,12 @@ export default {
         // 'th',
         // 'tr',
         // 'uk',
-        // 'vi',
+        'vi',
         // 'zh-Hans',
         // 'zh',
       ],
       auth: {
-        logo: GreenLogo
+        logo: Logo
       },
 
       head: {
@@ -40,21 +40,34 @@ export default {
       },
 
       menu: {
-        logo: GreenLogo
+        logo: Logo
       },
 
       translations: {
         en: {
-            "app.components.LeftMenu.navbrand.title": "Jetski",
-            "app.components.LeftMenu.navbrand.workplace": "Dashboard",
+            "Auth.form.button.login.strapi": "Log in via Tongle",
+            "Auth.form.welcome.title": "Welcome to Tongle",
+            "Auth.form.welcome.subtitle": "Log in to your Tongle account",
+            "Auth.form.register.subtitle": "Credentials are only used to authenticate in Vui. All saved data will be stored in your database.",
+            "HomePage.welcome.congrats.content": "You are logged in as the first administrator. To discover the powerful features provided by Chong An Bui,",
+            "app.components.HomePage.welcomeBlock.content": "Congrats! You are logged as the first administrator. To discover the powerful features provided by Chong An Bui, we recommend you to create your first Content type!",
+            "app.components.HomePage.welcomeBlock.content.again": "We hope you are making progress on your project! Feel free to read the latest news about Tongle. We are giving our best to improve the product based on your feedback.",
 
-            "Auth.form.welcome.title": "Welcome to Jetski!",
-            "Auth.form.welcome.subtitle": "Log in to your Jetski account",
-            "Auth.form.register.subtitle": "Credentials are only used to authenticate in Jetski. All saved data will be stored in your database.",
-            "HomePage.welcome.congrats.content": "You are logged in as the first administrator. To discover the powerful features provided by Jetski,",
-            "app.components.HomePage.welcomeBlock.content": "Congrats! You are logged as the first administrator. To discover the powerful features provided by Jetski, we recommend you to create your first Content type!",
-            "app.components.HomePage.welcomeBlock.content.again": "We hope you are making progress on your project! Feel free to read the latest news about Jetski. We are giving our best to improve the product based on your feedback.",
+            "Settings.application.strapiVersion": "tongle version",
+            "Settings.application.strapi-version": "tongle version",
+            "Settings.permissions.users.listview.header.subtitle": "All the users who have access to the Tongle admin panel",
+            "app.components.LeftMenu.navbrand.title": "Tongle",
+            "app.components.LeftMenu.navbrand.workplace": "Dashboard",
+            "app.components.BlockLink.blog.content": "Read the latest news about Tongle Dashboard and the ecosystem.",
+            "app.components.BlockLink.tutorial.content": "Follow step-by-step instructions to use and customize Tongle Dashboard.",
+            "app.components.MarketplaceBanner": "Discover plugins built by the community, and many more awesome things to kickstart your project, on Jetski Awesome.",
+            "app.components.MarketplaceBanner.image.alt": "a jetski rocket logo",
+            "app.components.UpgradePlanModal.text-power": "Unlock the full power of Tongle by upgrading your plan to the Enterprise Edition",
+            "app.components.UpgradePlanModal.text-strapi": "of Tongle Dashboard by upgrading your plan to the",
+            "components.AutoReloadBlocker.description": "Run Tongle Dashboard with one of the following commands:",
+            "notification.version.update.message": "A new version of Tongle Dashboard is available",
         },
+        
       },
       tutorials: false,
       notifications: { release: false },
