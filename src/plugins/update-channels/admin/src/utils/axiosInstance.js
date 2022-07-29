@@ -29,8 +29,8 @@ instance.interceptors.response.use(
   error => {
     // whatever you want to do with the error
     if (error.response?.status === 401) {
-      auth.clearAppStorage();
-      window.location.reload();
+      // auth.clearAppStorage();
+      // window.location.reload();
     }
 
     throw error;

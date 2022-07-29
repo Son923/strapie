@@ -10,7 +10,7 @@ export const Update = () => {
 
   return (
     <>
-      <Button startIcon={<Refresh />} onClick={''}>
+      <Button startIcon={<Refresh />}>
         {formatMessage({ id: getTrad('plugin.cta.update') })}
       </Button>
     </>
