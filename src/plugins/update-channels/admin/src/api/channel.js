@@ -4,7 +4,7 @@ const token = auth.getToken();
 
 const channelRequest = {
     getAllChannels: async () => {
-        return await request('/content-manager/collection-types/api::channel.channel', {
+        return await request('/content-manager/collection-types/api::channel.channel?pageSize=100', {
             method: "GET",
         });
     }
