@@ -59,8 +59,9 @@ export default {
       };
     });
     
-    // Inject column Created At 
+    // Inject column Created By
     app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
+      console.log(layout)
       if (layout.contentType.uid !== "api::channel.channel") {
         return {
           displayedHeaders,
@@ -73,7 +74,7 @@ export default {
         displayedHeaders: [
           ...displayedHeaders,
           {
-            key: '__created_by_id_key__', // Needed for the table
+            key: '__createdBy_key__', // Needed for the table
             fieldSchema: { type: 'string' }, // Schema of the attribute
             metadatas: {
               label: 'Created By', // Label of the header,

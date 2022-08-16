@@ -85,6 +85,7 @@ export default {
 
     },
     bootstrap(app) {
+      console.log('Bootstrap')
       console.log(app);
     },
   };

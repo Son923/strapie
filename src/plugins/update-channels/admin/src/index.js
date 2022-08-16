@@ -1,4 +1,4 @@
-import { prefixPluginTranslations } from '@strapi/helper-plugin';
+import { prefixPluginTranslations, auth } from '@strapi/helper-plugin';
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
@@ -47,62 +47,7 @@ export default {
     app.injectContentManagerComponent('listView', 'actions', {
       name: `${pluginId}-update`,
       Component: Update,
-    });
-
-    // Inject column Avatar
-    app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
-      return {
-        layout,
-        displayedHeaders: [
-          ...displayedHeaders,
-          {
-            key: '__avatarUrl_key__', // Needed for the table
-            fieldSchema: { type: 'string' }, // Schema of the attribute
-            metadatas: {
-              label: 'Avatar', // Label of the header,
-              sortable: true // Define if the column is sortable
-            }, // Metadatas for the label
-            // Name of the key in the data we will display
-            name: 'avatarUrl',
-            // Custom renderer: props => Object.keys(props).map(key => <p key={key}>key</p>)
-            cellFormatter: (data) => {
-              return (
-                <Avatar src={data['avatarUrl']} alt="" preview />
-              );
-            },
-          },
-        ]
-      };
-    });
-    
-    // Inject column Created At 
-    app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
-			return {
-        layout,
-        displayedHeaders: [
-          ...displayedHeaders,
-          {
-            key: '__created_by_id_key__', // Needed for the table
-            fieldSchema: { type: 'string' }, // Schema of the attribute
-            metadatas: {
-              label: 'Created By', // Label of the header,
-              sortable: true // Define if the column is sortable
-            }, // Metadatas for the label
-            // Name of the key in the data we will display
-            name: 'created_by_id',
-            // Custom renderer: props => Object.keys(props).map(key => <p key={key}>key</p>)
-            cellFormatter: (data) => {
-              return (
-                <div>
-                  {data["createdBy"]["firstname"]}{" "}
-                  {data["createdBy"]["lastname"]}
-                </div>
-              );
-            },
-          },
-			  ]
-      };
-    });
+    });  
 
   },
   async registerTrads({ locales }) {
