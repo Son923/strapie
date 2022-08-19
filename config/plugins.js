@@ -7,5 +7,9 @@ module.exports = {
       enabled: true,
       resolve: './src/plugins/youtube-search'
     },
+    'channel-page': {
+      enabled: true,
+      resolve: './src/plugins/channel-page'
+    },
     // ...
   }
