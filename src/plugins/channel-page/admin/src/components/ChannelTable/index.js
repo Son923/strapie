@@ -9,6 +9,7 @@ import { Typography } from '@strapi/design-system/Typography';
 import { Pencil } from '@strapi/icons/';
 import ExternalLink from '@strapi/icons/ExternalLink';
 import axiosInstance from '../../utils/axiosInstance';
+import { BaseLink } from '@strapi/design-system/BaseLink';
 
 const ChannelTable = () => {
   const ROW_COUNT = 11;
@@ -95,7 +96,9 @@ const ChannelTable = () => {
             <BaseCheckbox aria-label={`Select ${entry.channelID}`} />
           </Td>
           <Td>
-            <Typography textColor="neutral800">{entry.channelName}</Typography>
+            <BaseLink href={entry.channelLink} isExternal>
+              <Typography textColor="neutral800">{entry.channelName}</Typography>
+            </BaseLink>
           </Td>
           <Td>
             <Box maxWidth="120px">
@@ -124,11 +127,11 @@ const ChannelTable = () => {
               <Typography ellipsis>{entry.createdAt}</Typography>
             </Box>
           </Td>
-          {/* <Td>
+          <Td>
             <Box maxWidth="150px">
-              <Typography ellipsis>{entry.createdBy}</Typography>
+              <Typography ellipsis>{`${entry.createdBy.firstname} ${entry.createdBy.lastname}`}</Typography>
             </Box>
-          </Td> */}
+          </Td>
           
 
           <Td>

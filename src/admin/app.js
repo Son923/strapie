@@ -1,5 +1,7 @@
 import Logo from './extensions/unicorn.png';
 import favicon from './extensions/favicon.ico';
+import React from 'react';
+import { Avatar } from '@strapi/design-system/Avatar';
 
 export default {
     config: {
@@ -82,10 +84,80 @@ export default {
           buttonPrimary500: '#00B442',
         }
       },
-
     },
+
     bootstrap(app) {
       console.log(app);
+      // Inject column: Channel Avatar
+      app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
+        if (layout.contentType.uid !== "api::channel.channel") {
+          return {
+            displayedHeaders,
+            layout,
+          };
+        }
+
+        return {
+          layout,
+          displayedHeaders: [
+            ...displayedHeaders,
+            {
+              key: '__avatarUrl_key__', // Needed for the table
+              fieldSchema: { type: 'string' }, // Schema of the attribute
+              metadatas: {
+                label: 'Avatar', // Label of the header,
+                sortable: true // Define if the column is sortable
+              }, // Metadatas for the label
+              // Name of the key in the data we will display
+              name: 'avatarUrl',
+              // Custom renderer: props => Object.keys(props).map(key => <p key={key}>key</p>)
+              cellFormatter: (data) => {
+                return (
+                  <Avatar src={data['avatarUrl']} alt="" preview />
+                );
+              },
+            },
+          ]
+        };
+      });
+
+      // Inject column: Created By 
+      app.registerHook('Admin/CM/pages/ListView/inject-column-in-table', ({ displayedHeaders, layout }) => {
+        if (layout.contentType.uid !== "api::channel.channel") {
+          return {
+            displayedHeaders,
+            layout,
+          };
+        }
+
+        return {
+          layout,
+          displayedHeaders: [
+            ...displayedHeaders,
+            {
+              key: '__created_by_id_key__', // Needed for the table
+              fieldSchema: { type: 'string' }, // Schema of the attribute
+              metadatas: {
+                label: 'Created By', // Label of the header,
+                sortable: false // Define if the column is sortable
+              }, // Metadatas for the label
+              // Name of the key in the data we will display
+              name: 'createdBy',
+              // Custom renderer: props => Object.keys(props).map(key => <p key={key}>key</p>)
+              cellFormatter: (data) => {
+                console.log(data)
+                return (
+                  <div>
+                    {data["createdBy"]["firstname"] +' '+ data["createdBy"]["lastname"]}
+                  </div>
+                );
+              },
+            },
+          ]
+        };
+      });
+
     },
+  
   };
   
