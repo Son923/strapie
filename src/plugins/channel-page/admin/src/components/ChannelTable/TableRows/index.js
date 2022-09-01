@@ -1,192 +1,169 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { BaseCheckbox } from '@strapi/design-system/BaseCheckbox';
 import { Box } from '@strapi/design-system/Box';
-import { IconButton } from '@strapi/design-system/IconButton';
-import { Tbody, Td, Tr } from '@strapi/design-system/Table';
 import { Flex } from '@strapi/design-system/Flex';
-import Trash from '@strapi/icons/Trash';
-import Duplicate from '@strapi/icons/Duplicate';
+import { IconButton } from '@strapi/design-system/IconButton';
 import Pencil from '@strapi/icons/Pencil';
-import { useTracking, stopPropagation, onRowClick } from '@strapi/helper-plugin';
-import { useHistory } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import { usePluginsQueryParams } from '../../../hooks';
-import CellContent from '../CellContent';
-import { getFullName } from '../../../../utils';
+import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { BaseLink } from '@strapi/design-system/BaseLink';
+import { Typography } from '@strapi/design-system/Typography';
+import { Tbody, Td, Th, Thead, Tr } from '@strapi/design-system/Table';
+
+
+import ExternalLink from '@strapi/icons/ExternalLink';
 
 const TableRows = ({
-  canCreate,
-  canDelete,
-  headers,
-  entriesToDelete,
-  onClickDelete,
+
+  checkedItems,
+  setCheckedItems,
   onSelectRow,
-  withMainAction,
-  withBulkActions,
   rows,
 }) => {
-  const {
-    push,
-    location: { pathname },
-  } = useHistory();
-  const { formatMessage } = useIntl();
+  const channels = rows
+  
+  let allChecked = checkedItems.length===rows.length
+  const isIndeterminate = (checkedItems.length > 0) && !allChecked;
 
-  const { trackUsage } = useTracking();
-  const pluginsQueryParams = usePluginsQueryParams();
 
   return (
+    <>
+    <Thead>
+      <Tr>
+        <Th>
+          <BaseCheckbox 
+            id="parent-checkbox"
+            aria-label="Select all entries" 
+            indeterminate={isIndeterminate}
+            value={allChecked}
+            onValueChange={value => {
+                allChecked=value
+                if (value===false) {
+                  // setCheckedItems([])
+                  setCheckedItems(checkedItems => [...checkedItems.filter((id) => !checkedItems.includes(id))])
+
+                }
+                if (value===true) {
+                  let fullCheckedItems = rows.map(row => row.id);
+                  setCheckedItems(fullCheckedItems)
+                }
+                
+              }
+            }
+          />
+        </Th>
+        <Th>
+          <Typography variant="sigma">Channel Name</Typography>          
+        </Th>
+        <Th>
+          <Typography variant="sigma">Category</Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">Avg View</Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">Country</Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">Subscriber count</Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">Last Upload</Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">Created At</Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">Created By</Typography>
+        </Th>
+      </Tr>
+    </Thead>
     <Tbody>
-      {rows.map((data, index) => {
-        const isChecked = entriesToDelete.findIndex((id) => id === data.id) !== -1;
-        const itemLineText = formatMessage(
-          {
-            id: 'content-manager.components.DynamicTable.row-line',
-            defaultMessage: 'item line {number}',
-          },
-          { number: index }
-        );
-
+      {channels.map(entry => {
+        let isChecked = checkedItems.findIndex((id) => id === entry.id) !== -1
         return (
-          <Tr
-            key={data.id}
-            {...onRowClick({
-              fn() {
-                trackUsage('willEditEntryFromList');
-                push({
-                  pathname: `${pathname}/${data.id}`,
-                  state: { from: pathname },
-                  search: pluginsQueryParams,
-                });
-              },
-              condition: withBulkActions,
-            })}
-          >
-            {withMainAction && (
-              <Td {...stopPropagation}>
-                <BaseCheckbox
-                  aria-label={formatMessage(
-                    {
-                      id: 'app.component.table.select.one-entry',
-                      defaultMessage: `Select {target}`,
-                    },
-                    { target: getFullName(data.firstname, data.lastname) }
-                  )}
-                  checked={isChecked}
-                  onChange={() => {
-                    onSelectRow({ name: data.id, value: !isChecked });
-                  }}
-                />
-              </Td>
-            )}
-            {headers.map(({ key, cellFormatter, name, ...rest }) => {
-              return (
-                <Td key={key}>
-                  {typeof cellFormatter === 'function' ? (
-                    cellFormatter(data, { key, name, ...rest })
-                  ) : (
-                    <CellContent
-                      content={data[name.split('.')[0]]}
-                      name={name}
-                      {...rest}
-                      rowId={data.id}
-                    />
-                  )}
-                </Td>
-              );
-            })}
+        <Tr key={entry.id}>  
+          <Td>
+            <BaseCheckbox 
+              aria-label={`Select ${entry.channelID}`}
+              value={isChecked}
+              onValueChange={value => {
+                if ( value===true && !checkedItems.includes(entry.id) ) {
+                  setCheckedItems(checkedItems => [...checkedItems, entry.id]);
+                }
 
-            {withBulkActions && (
-              <Td>
-                <Flex justifyContent="end" {...stopPropagation}>
-                  <IconButton
-                    onClick={() => {
-                      trackUsage('willEditEntryFromButton');
-                      push({
-                        pathname: `${pathname}/${data.id}`,
-                        state: { from: pathname },
-                        search: pluginsQueryParams,
-                      });
-                    }}
-                    label={formatMessage(
-                      { id: 'app.component.table.edit', defaultMessage: 'Edit {target}' },
-                      { target: itemLineText }
-                    )}
-                    noBorder
-                    icon={<Pencil />}
-                  />
+                if ( value===false && checkedItems.includes(entry.id)) {
+                  setCheckedItems(checkedItems => [...checkedItems.filter((id) => id !== entry.id)])
+                }
+              }}
+            />
+          </Td>
+          <Td>
+            <BaseLink href={entry.channelLink} isExternal>
+              <Typography textColor="neutral800">{entry.channelName}</Typography>
+            </BaseLink>
+          </Td>
+          <Td>
+            <Box maxWidth="120px">
+              <Typography ellipsis>{entry.category}</Typography>
+            </Box>
+          </Td>
+          <Td>
+            <Typography textColor="neutral800">{entry.averageViews}</Typography>
+          </Td>
+          <Td>
+            <Typography textColor="neutral800">{entry.country}</Typography>
+          </Td>
 
-                  {canCreate && (
-                    <Box paddingLeft={1}>
-                      <IconButton
-                        onClick={() => {
-                          push({
-                            pathname: `${pathname}/create/clone/${data.id}`,
-                            state: { from: pathname },
-                            search: pluginsQueryParams,
-                          });
-                        }}
-                        label={formatMessage(
-                          {
-                            id: 'app.component.table.duplicate',
-                            defaultMessage: 'Duplicate {target}',
-                          },
-                          { target: itemLineText }
-                        )}
-                        noBorder
-                        icon={<Duplicate />}
-                      />
-                    </Box>
-                  )}
+          <Td>
+            <Box maxWidth="120px">
+              <Typography ellipsis>{entry.subscriberCount}</Typography>
+            </Box>
+          </Td>
+          <Td>
+            <Box maxWidth="150px">
+              <Typography ellipsis>{entry.lastUpload}</Typography>
+            </Box>
+          </Td>
+          <Td>
+            <Box maxWidth="150px">
+              <Typography ellipsis>{entry.createdAt}</Typography>
+            </Box>
+          </Td>
+          <Td>
+            <Box maxWidth="150px">
+              <Typography ellipsis>{`${entry.createdBy.firstname} ${entry.createdBy.lastname}`}</Typography>
+            </Box>
+          </Td>
+          
 
-                  {canDelete && (
-                    <Box paddingLeft={1}>
-                      <IconButton
-                        onClick={() => {
-                          trackUsage('willDeleteEntryFromList');
-
-                          onClickDelete(data.id);
-                        }}
-                        label={formatMessage(
-                          { id: 'global.delete-target', defaultMessage: 'Delete {target}' },
-                          { target: itemLineText }
-                        )}
-                        noBorder
-                        icon={<Trash />}
-                      />
-                    </Box>
-                  )}
-                </Flex>
-              </Td>
-            )}
-          </Tr>
-        );
-      })}
+          <Td>
+            <Flex>
+              <IconButton onClick={() => console.log('edit')} label="Edit" noBorder icon={<Pencil />} />
+              <Box paddingLeft={1}>
+                <IconButton onClick={() => window.open(entry.channelLink,'_blank')} label="View on Youtube" noBorder icon={<ExternalLink />} />
+              </Box>
+            </Flex>
+          </Td>
+        </Tr>)}
+        )
+      }
+        
     </Tbody>
+    </>
   );
 };
 
 TableRows.defaultProps = {
-  canCreate: false,
-  canDelete: false,
-  entriesToDelete: [],
-  onClickDelete() {},
+
+  checkedItems: [],
   onSelectRow() {},
   rows: [],
-  withBulkActions: false,
-  withMainAction: false,
 };
 
 TableRows.propTypes = {
-  canCreate: PropTypes.bool,
-  canDelete: PropTypes.bool,
-  entriesToDelete: PropTypes.array,
-  headers: PropTypes.array.isRequired,
-  onClickDelete: PropTypes.func,
+  checkedItems: PropTypes.array,
   onSelectRow: PropTypes.func,
   rows: PropTypes.array,
-  withBulkActions: PropTypes.bool,
-  withMainAction: PropTypes.bool,
 };
 
 export default TableRows;

@@ -145,7 +145,6 @@ export default {
               name: 'createdBy',
               // Custom renderer: props => Object.keys(props).map(key => <p key={key}>key</p>)
               cellFormatter: (data) => {
-                console.log(data)
                 return (
                   <div>
                     {data["createdBy"]["firstname"] +' '+ data["createdBy"]["lastname"]}
